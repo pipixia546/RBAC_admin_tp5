@@ -1,0 +1,73 @@
+{extend name="common/base" /}
+{block name="body"}
+<div class="main">
+    <div class="w1000">
+        <div class="shenqing">
+            <div class="sqlogo">
+                <img src="/static/index/images/logo.png" width="258">
+            </div>
+            <div class="sq_center">
+                <p class="yhhd">优惠活动申请</p>
+                <script type="text/javascript" src="sms/sms.js"></script>
+                <!--<form action="group_buy.php?act=chuli" method="post" name="theForm" id="theForm" onsubmit="return checkGoods(this)">-->
+                <p class="pass-form-item">
+                    <label for="">申请主题：</label><span>{$list.project_name} <a href="{:url('/detail',['id'=>$list['id']])}">查看详情</a></span>
+                </p>
+                <p class="pass-form-item">
+                    <label for="">会员账号：</label>
+                    <input  class="input" type="text" id="user_name" maxlength="200" name="user_name" placeholder="填写会员账号" />
+                </p>
+                {:getCondition($list['project_condition'])}
+                <p class="pass-form-item yanzhengma">
+                    <label for="">&nbsp;&nbsp;&nbsp;验证码：</label>
+                    <span class="yzm">
+                         <input class="input" type="text" name="yzm" id="yzm" placeholder="填写验证码">
+
+            			<img src="{:captcha_src()}" alt="captcha" style="vertical-align: middle;cursor: pointer;width: 25%;height: 60%;" onClick="this.src='{:captcha_src()}'+Math.random()" />
+                        </span>
+                </p>
+                <div style="width: 100%; height: 20px;"></div>
+                <p class="pass-form-item">
+                    <input class="bnt" name="new_id" id="new_id" type="hidden" value="{$list.id}" />
+                    <input class="bnt" name="" type="button"  value="立即提交" id="btn_apply" />
+                    <a href="/" class="bnt" >返回首页</a>
+                </p>
+                <div style="width: 100%; height: 20px;"></div>
+                <!--</form>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function () {
+    $('#btn_apply').click(function () {
+        var projectid=$("input[name='new_id']").val();
+        var user=$("input[name='user_name']").val();
+        var code=$("input[name='yzm']").val();
+        var condition=$("input[name='condition']");
+        var explain="";
+        if (projectid=="" || user=="" || code==""){
+            alert('填写不能为空！');
+            return;
+        }
+        condition.each(function () {
+            var name=$(this).attr('rel');
+            var val=$(this).val();
+            if (val==""){
+                alert('填写不能为空！');
+                return;
+            }
+            explain+=name+":"+val+";"
+        })
+        var url="{:url('/apply')}"
+        $.post(url,{projectid:projectid,user:user,code:code,condition:explain},function (res) {
+            if (res.code==0){
+                alert('申请成功！');
+            } else{
+                alert(res.msg);
+            }
+        })
+    });
+})
+</script>
+{/block}

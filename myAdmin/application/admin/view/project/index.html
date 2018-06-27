@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>用户总数--layui后台管理模板</title>
+	<link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="/static/admin/css/font_eolqem241z66flxr.css" media="all" />
+	<link rel="stylesheet" href="/static/admin/css/user.css" media="all" />
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote news_search">
+
+	<div class="layui-inline">
+		<a class="layui-btn layui-btn-normal" href="{:url('admin/Project/add')}">添加活动</a>
+	</div>
+	<div class="layui-inline">
+		<a class="layui-btn layui-btn-danger batchDel delAll">批量删除</a>
+	</div>
+	<div class="layui-inline">
+		<div class="layui-form-mid layui-word-aux"></div>
+	</div>
+</blockquote>
+<div class="layui-form news_list">
+	<table class="layui-table">
+		<colgroup>
+			<col width="5%">
+			<col width="10%">
+			<col width="45%">
+			<col width="40%">
+		</colgroup>
+		<thead>
+		<tr>
+			<th><input type="checkbox" name="allChoose" lay-skin="primary" lay-filter="allChoose"></th>
+			<th>编号</th>
+			<th>名称</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody class="users_content">
+		{foreach $list as $vo}
+		<tr>
+			<th><input type="checkbox" lay-skin="primary" name="checkbox" value=",{$vo.id}"></th>
+			<th>{$vo.id}</th>
+			<th>{$vo.project_name}</th>
+			<th> <a class="layui-btn" href="{:url('/admin/project/edit',['id'=>$vo['id']])}">编辑</a>
+				<button class="layui-btn del" rel="{$vo.id}">删除</button>
+			</th>
+		</tr>
+		{/foreach}
+		</tbody>
+	</table>
+</div>
+<div id="page"></div>
+<script type="text/javascript" src="/static/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/static/admin/js/allUsers.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery-3.3.1.min.js"></script>
+<script>
+	$(function () {
+	    $('.delAll').click(function () {
+            var str="";
+            $("input:checkbox[name='checkbox']:checked").each(function() {
+                str +=','+ $(this).val();
+            });
+            if (str==""){
+                layer.msg('您尚未选择',{icon:2});
+                return;
+            }
+            delzz(str);
+
+        })
+		$('.del').click(function () {
+			var str=$(this).attr('rel');
+			delzz(str);
+        });
+		function delzz(str) {
+            var url="{:url('/admin/Project/del')}";
+            $.post(url,{str:str},function (res) {
+                if (res.code==0){
+                    layer.msg(res.msg,{icon:1});
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2000)
+                } else{
+                    layer.msg(res.msg,{icon:2});
+                }
+            });
+        }
+    })
+
+</script>
+</body>
+</html>

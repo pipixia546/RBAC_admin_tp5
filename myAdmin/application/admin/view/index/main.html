@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>首页--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/font_eolqem241z66flxr.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/main.css" media="all" />
+</head>
+<body class="childrenBody" style="padding: 0px;margin: 0px;">
+<div class="row">
+    <div class="sysNotice col">
+        <blockquote class="layui-elem-quote title">系统基本参数</blockquote>
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <td>当前登陆账号</td>
+                <td class="version">{$info.username}</td>
+            </tr>
+            <tr>
+                <td>累计登录次数</td>
+                <td class="author">{$info.login_time}</td>
+            </tr>
+            <tr>
+                <td>上次登陆ip</td>
+                <td class="homePage">{$info.ip}</td>
+            </tr>
+            <tr>
+                <td>上次登陆时间</td>
+                <td class="homePage">{$info.addtime|date="Y-m-d H:i:s"}</td>
+            </tr>
+            </tbody>
+            <
+        </table>
+    </div>
+</div>
+</body>
+</html>

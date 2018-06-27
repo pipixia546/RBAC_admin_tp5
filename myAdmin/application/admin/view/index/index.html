@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui后台管理模板</title>
+    <link rel="icon" href="/static/admin/favicon.ico">
+    <link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/font_eolqem241z66flxr.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/main.css" media="all" />
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部 -->
+    <div class="layui-header header">
+        <div class="layui-main">
+            <a href="#" class="logo">layui后台管理</a>
+            <ul class="layui-nav top_menu">
+
+                <li class="layui-nav-item" mobile>
+                    <a href="javascript:;" data-url="page/user/changePwd.html">
+                        <i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i>
+                        <cite>设置</cite>
+                    </a>
+                </li>
+                <li class="layui-nav-item" mobile>
+                    <a href="javascript:;"><i class="iconfont icon-loginout"></i> 退出</a>
+                </li>
+
+                <li class="layui-nav-item" pc>
+                    <a href="javascript:;" class="slide_menu">
+                        <img src="/static/admin/images/face.jpg" class="layui-circle" width="35" height="35">
+                        <cite>{$user}</cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{:url('/admin/Common/update_pwd')}" target="iframe_name"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>
+                        <dd class="logout"><a ><i class="iconfont icon-loginout "></i><cite>退出</cite></a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 左侧导航 -->
+    <div class="layui-side layui-bg-black">
+        <div class="user-photo">
+            <a class="img" title="我的头像" ><img src="/static/admin/images/face.jpg"></a>
+            <p>欢迎<span class="userName" style="color: red">{$user}</span>登陆</p>
+        </div>
+        <div class="navBar layui-side-scroll" style="height: 407px;">
+            <ul class="layui-nav layui-nav-tree">
+                {if !empty($menu)}
+                {volist name="menu" key="k" id="vo"}
+                <li class="layui-nav-item">
+
+                    <a {if !empty($vo['url'])}href="{:url($vo['url'])}" {/if} class="slide_menu" target="iframe_name">
+                        <i class="iconfont icon-text" data-icon="icon-text"></i>
+                        <cite>{$vo.rule_name}</cite>
+                    {if !empty($vo['menu'])}<span class="layui-nav-more"></span>{/if}
+                    </a>
+
+
+                    {if !empty($vo['menu'])}
+                    {foreach $vo['menu'] as $do}
+                    <dl class="layui-nav-child">
+                        <dd><a href="{:url($do['url'])}" target="iframe_name">
+                            <i class="layui-icon" data-icon=""></i><cite>{$do.rule_name}</cite>
+                        </a>
+                        </dd>
+                    </dl>
+                    {/foreach}{/if}
+                </li>/
+                {/volist}
+                {/if}
+                <span class="layui-nav-bar" style="top: 22.5px; height: 0px; opacity: 0;"></span>
+            </ul>
+        </div>
+    </div>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <ul class="layui-tab-title top_tab">
+                <li class="layui-this" lay-id=""><cite id="name">用户申请</cite></li>
+            </ul>
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <iframe src="{:url('/admin/Common/main')}" name="iframe_name" ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div class="layui-footer footer">
+        <p>copyright @2017</p>
+    </div>
+</div>
+<div class="site-tree-mobile layui-hide"><i class="layui-icon">&#xe602;</i></div>
+<div class="site-mobile-shade"></div>
+<script type="text/javascript" src="/static/admin/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/static/admin/layer/layer.js"></script>
+</body>
+<script>
+    $(function () {
+        $('.slide_menu').click(function () {
+            $(this).siblings('dl').slideToggle();
+        });
+        $('dl').click(function () {
+
+            $('dd').removeClass('layui-this');
+            $(this).find('dd').addClass('layui-this');
+            $html=$(this).find('cite').html();
+            $('#name').html($html);
+
+        });
+        $('.logout').click(function () {
+            $.post("{:url('/admin/Index/logout')}",{},function (res) {
+                if (res.code==0){
+                    layer.msg(res.msg,{icon:1});
+                    setTimeout(function () {
+                        window.location.href="{:url('/admin/Login/index')}"
+                    },2000)
+                } else{
+                    layer.msg(res.msg,{icon:2});
+                }
+            })
+        })
+
+    })
+
+</script>
+</html>

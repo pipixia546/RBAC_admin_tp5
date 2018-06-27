@@ -1,0 +1,51 @@
+<div class="bottom">
+    <div class="w1000">
+        <div class="link">
+            <ul>
+                <li><a href="http://jinsha119.com/member/member?type=returnSavaMember" target="_blank" class="l1"></a></li>
+                <li><a href="http://www.5878.com/" target="_blank" class="l2"></a></li>
+                <li><a href="https://www.providesupport.com/?messenger=0ow24uftvtlip18whh7utq6518" target="_blank" class="l3"></a></li>
+                <li><a href="https://jinsha.cool/download/index.html" target="_blank" class="l4"></a></li>
+                <li><a href="https://jinsha.cool/download/index.html" target="_blank" class="l5"></a></li>
+                <li><a href="http://pb88.ac101.net/ub/cur/UB-Launcher.exe" target="_blank" class="l6"></a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <div class="hd">
+                <a class="next"></a>
+                <a class="prev"></a>
+            </div>
+            <div class="bd">
+                <div class="tempWrap" style="overflow:hidden; position:relative; height:165px">
+                    <div id="left" >
+                        <marquee style="WIDTH: 320px; HEIGHT: 200px" scrollamount="2" direction="up" >
+                            <br />
+                            <center ><font face="黑体" color="#008000" size="4" ></font ></center >
+                            <div align="left" ><br />
+                            </div >
+                            <center >
+                                {foreach $prize as $vo}
+                                <p style="color:#989898; line-height:25px;" >  恭喜：
+                                    <span style="color:#f39700">{$vo.user|substr=0,2}******</span>
+                                    成功办理了 <i style="color:#00ffff;font-style:normal;">{:getProject($vo['projectid'])}</i><br />
+                                </p >
+                                {/foreach}
+                                </center>
+                        </marquee >
+                    </div ></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="irem"></div>
+<div class="footer">
+    <div class="footerimg w1000">
+        <img src="/static/index/images/footerimg.png"></div>
+    <div class="copyright">Copyright © 2009-2017 澳门金沙 Reserved</div>
+    <a href="/" class="shouye">返回首页</a>
+
+    <a href="{:url('/apply',['id'=>$list['id']])}" class="chaxun">点击申请</a>
+    <div class="line"></div>
+</div>
+</body>
+</html>

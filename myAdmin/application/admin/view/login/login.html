@@ -1,0 +1,99 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>登录界面</title>
+    <link href="/static/admin/login/css/default.css" rel="stylesheet" type="text/css" />
+    <!--必要样式-->
+    <link href="/static/admin/login/css/styles.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/login/css/demo.css" rel="stylesheet" type="text/css" />
+    <link href="/static/admin/login/css/loaders.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class='login'>
+    <div class='login_title'>
+        <span>管理员登录</span>
+    </div>
+    <div class='login_fields'>
+        <div class='login_fields__user'>
+            <div class='icon'>
+                <img alt="" src='/static/admin/login/css/user_icon_copy.png'>
+            </div>
+            <input name="login" placeholder='请输入用户名' maxlength="16" type='text' autocomplete="off" />
+            <div class='validation'>
+                <img alt="" src='/static/admin/login/img/tick.png'>
+            </div>
+        </div>
+        <div class='login_fields__password'>
+            <div class='icon'>
+                <img alt="" src='/static/admin/login/css/img/lock_icon_copy.png'>
+            </div>
+            <input name="pwd" placeholder='请输入密码' maxlength="16" type='text' autocomplete="off">
+            <div class='validation'>
+                <img alt="" src='/static/admin/login/img/tick.png'>
+            </div>
+        </div>
+        <div class='login_fields__password'>
+            <div class='icon'>
+                <img alt="" src='/static/admin/login/img/key.png'>
+            </div>
+            <input name="code" placeholder='验证码' maxlength="5" type='text'  autocomplete="off">
+            <div class='validation' style="opacity: 1; right: -5rem;top:-5%;height: 50px">
+                <img src="{:captcha_src()}" onClick="javascript:this.src='{:captcha_src()}'+Math.random();" style="width: 45%;height: 100%;">
+            </div>
+        </div>
+        <div class='login_fields__submit'>
+            <input type='button' value='登录' id="button">
+        </div>
+    </div>
+    <div class='success'>
+    </div>
+    <div class='disclaimer'>
+        <p>欢迎登录pipixia后台管理系统</p>
+    </div>
+</div>
+
+<script  src="/static/admin/login/js/jquery.min.js"></script>
+<script  src="/static/admin/login/js/Particleground.js"></script>
+<script  src="/static/admin/login/js/Treatment.js"></script>
+<script  src="/static/admin/layer/layer.js"></script>
+
+
+<script type="text/javascript">
+    $('body').particleground({
+        dotColor: '#E8DFE8',
+        lineColor: '#133b88'
+    });
+    $('#button').click(function () {
+
+        var code=$('input[name="code"]').val();
+        var user=$('input[name="login"]').val();
+        var password=$('input[name="pwd"]').val();
+
+        if (code=="" || user=="" || password=="") {
+            layer.msg('请输入完整的登陆信息！');
+        }else{
+            var url="{:url('/admin/Login/index')}";
+            $.post(url,{code:code,user:user,password:password},function (data) {
+                if (data.code==0){
+                    window.location.href="{:url('/admin/Index/index')}";
+                } else{
+                    layer.msg(data.msg);
+                }
+            },'json');
+
+        }
+
+    });
+</script>
+
+</body>
+</html>

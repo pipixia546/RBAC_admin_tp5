@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>文章添加--layui后台管理模板</title>
+    <link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/font_eolqem241z66flxr.css" media="all" />
+</head>
+<body class="childrenBody" style="padding: 0px;margin: 0px;">
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">管理员名称</label>
+        <div class="layui-input-block" style="line-height: 2.3rem;">
+            <input type="text" class="layui-input" name="username" placeholder="请输入添加的账号" style="width: 15rem">
+            <span style="color: red;font-size: 12px;">(必填项!)</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登陆密码</label>
+        <div class="layui-input-block" style="line-height: 2.3rem;">
+            <input type="password" class="layui-input" name="password" style="width: 15rem" placeholder="请输入密码">
+            <span style="color: red;font-size: 12px;">(必填项!)</span>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">管理员角色</label>
+            <div class="layui-input-inline">
+                <select name="browseLook" class="newsLook" lay-filter="browseLook" >
+                    <option value="">----请选择----</option>
+                    {foreach $list as $vo}
+                    <option value="{$vo.role_id}">{$vo.role_name}</option>
+                    {/foreach}
+                </select>
+                <span style="color: red;font-size: 12px;">(必选项!)</span>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn btn_edituserapply" type="button" >立即提交</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="/static/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/static/admin/js/newsAdd.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery-3.3.1.min.js"></script>
+</body>
+<script>
+    $(function () {
+        $('.btn_edituserapply').click(function () {
+
+            var form=$('form').serializeArray();
+
+            var url="{:url('/admin/User/add')}"
+            $.post(url,form,function (res) {
+                if(res.code==0){
+                    layer.msg(res.msg,{icon:1});
+
+                }else{
+                    layer.msg(res.msg,{icon:2});
+
+                }
+            },'json')
+            // var status=$("select[name='status']").val();
+            // var prize=$("input[name='prize']").val();
+            // var explain=$("textarea[name='explain']").val();
+        })
+    })
+</script>
+</html>

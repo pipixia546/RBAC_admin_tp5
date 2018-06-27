@@ -1,0 +1,175 @@
+<html>
+<head>
+    <style type="text/css">
+
+        .ulProd > ul{
+            margin-bottom: 0px;
+        }
+        .ulProd ul > li {
+            list-style-type:none;
+            margin:0;
+            padding:10px 0px 5px 5px;
+            position:relative;
+            left: 0px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 440px;
+        }
+        .ulProd li ul >li{
+            list-style-type:none;
+            margin:0;
+            padding:10px 0px 0 5px;
+            position:relative;
+            left: 45px;
+            font-size: 16px;
+            width: 390px;
+        }
+        .ulProd li ul >li{
+            list-style-type:none;
+            margin:0;
+            padding:5px 0px 0 5px;
+            position:relative;
+            left: 25px;
+            font-size: 14px;
+            width: 410px;
+        }
+        .ulProd li::before, .ulProd li::after {
+            content:'';
+            left:-15px;
+            position:absolute;
+            right:auto
+        }
+        .ulProd li::before {
+            border-left:1px solid #999;
+            bottom:20px;
+            height:100%;
+            top:0;
+            width:1px
+        }
+
+
+        .ulProd li::after {
+            border-top:1px solid #999;
+            height:20px;
+            top:25px;
+            width:20px
+        }
+        .ulProd li>span {
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            /* border:1px solid #999; */
+            border-radius:5px;
+            display:inline-block;
+            padding:0px 0px;
+            text-decoration:none
+        }
+        .ulProd li.parent_li>span {
+            cursor:pointer
+        }
+        .ulProd>ul>li::before, .ulProd>ul>li::after {
+            border:1
+        }
+        .ulProd li:last-child::before {
+            height:25px;
+
+        }
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 42px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+            margin-top: 3rem;
+            border-radius: 10px;
+
+        }
+        .input{
+            margin: 0 auto;
+            padding: 0 10px;
+            width: 436px;
+            height: 34px;
+            border: 1px solid rgba(255,255,255,.8);
+            border-radius: 2px;
+
+            background: rgba(0,0,0,.15);
+
+        }
+        .name{
+            font-size: 16px;
+
+        }
+    </style>
+</head>
+<body style="padding: 0px;margin: 0px;">
+<div class="name"><b>角色名称：</b>
+    <input type="text" name="role_name" placeholder="请输入角色名称" class="input"/>
+</div>
+<div class="quanxian name" style="border: #2b91af 1px solid;margin-top: 20px;"><b>权限分配：</b>
+{volist name="menu" id="vo"}
+<div class='ulProd' style="margin-left:40px;padding: 5px;">
+    <input type="checkbox" name="checkbox" value="{$vo.id}" class="menu" />
+    <b class="cc" style="cursor: pointer">{$vo.rule_name}</b>
+    {if !empty($vo['menu'])}
+    <ul style="margin-top: 0px;">
+        {foreach $vo['menu'] as $do}
+        <li><input type="checkbox" name="checkbox" value="{$do.id}" class="zi" />{$do.rule_name}</li>
+        {/foreach}
+    </ul>
+    {/if}
+</div>
+{/volist}
+</div>
+<button class="button" >提交</button>
+</body>
+<script type="text/javascript" src="/static/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/static/admin/js/allUsers.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(function () {
+        $('.menu').click(function () {
+            var flage =$(this).is(":checked");
+            $(this).siblings('ul').find("input[type=checkbox]").each(function(){
+
+                $(this).prop("checked",flage);
+
+            })
+        });
+        $('.zi').click(function () {
+            if ($(this).is(":checked")) {
+                $(this).parents('ul').siblings('.menu').prop("checked","checked")
+            }
+        });
+        $('.cc').click(function () {
+            $(this).siblings('ul').slideToggle();
+        })
+        $('.button').click(function () {
+            var str="";
+            $("input:checkbox[name='checkbox']:checked").each(function() {
+                str +=','+ $(this).val();
+            });
+             str=str+',7';
+            var role_name=$("input[name='role_name']").val();
+            if (str=="" || role_name==""){
+                layer.msg('指定内容不能为空',{icon:2});
+                return;
+            }
+            var url="{:url('/admin/User/add_role')}";
+            $.post(url,{rule:str,role_name:role_name},function (res) {
+                if (res.code==0){
+                    layer.msg(res.msg,{icon:1});
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2000)
+                } else{
+                    layer.msg(res.msg,{icon:2});
+                }
+            });
+
+        })
+    })
+</script>
+</html>

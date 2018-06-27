@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户总数--layui后台管理模板</title>
+    <link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/font_eolqem241z66flxr.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/user.css" media="all" />
+    <link rel="stylesheet" href="/static/admin/css/font_eolqem241z66flxr.css" media="all" />
+</head>
+<body class="childrenBody" style="padding: 0px;margin: 0px;">
+<blockquote class="layui-elem-quote news_search">
+    <div class="layui-inline">
+        <form action="" method="get">
+            <div class="layui-input-inline">
+                <input type="text" value="" placeholder="请输入管理员名称" class="layui-input search_input" name="search">
+            </div>
+            <button class="layui-btn search_btn" type="submit">查询</button>
+            <form>
+    </div>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-normal" href="{:url('/admin/user/add_role')}">添加角色</a>
+    </div>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-danger batchDel delAll">批量删除</a>
+    </div>
+    <div class="layui-inline">
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+</blockquote>
+<div class="layui-form news_list">
+    <table class="layui-table" id="table">
+        <thead>
+        <tr>
+            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+            <th>编号</th>
+            <th>管理员角色</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody class="users_content">
+        {foreach name="list" id="vo"}
+        <tr>
+            <th><input type="checkbox" lay-skin="primary" name="checkbox" value=",{$vo.role_id}"></th>
+            <th>{$vo.role_id}</th>
+            <th>{$vo.role_name}</th>
+            <th><a class="layui-btn" href="{:url('/admin/user/edit_role',['id'=>$vo['role_id']])}">查看或编辑</a>
+                <button class="layui-btn del" type="button" rel=",{$vo.role_id}">删除</button>
+            </th>
+        </tr>
+        {/foreach}
+        </tbody>
+
+    </table>
+</div>
+
+<script type="text/javascript" src="/static/admin/layui/layui.js"></script>
+<script type="text/javascript" src="/static/admin/js/allUsers.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(function () {
+        $('.delAll').click(function () {
+            var str="";
+            $("input:checkbox[name='checkbox']:checked").each(function() {
+                str +=','+ $(this).val();
+            });
+            if (str==""){
+                layer.msg('您尚未选择',{icon:2});
+                return;
+            }
+            delzz(str);
+
+        })
+        $('.del').click(function () {
+            var str=$(this).attr('rel');
+            delzz(str);
+        });
+        function delzz(str) {
+            var url="{:url('/admin/User/del_role')}";
+            $.post(url,{str:str},function (res) {
+                if (res.code==0){
+                    layer.msg(res.msg,{icon:2});
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2000)
+                }else if(res.code==2){
+                    layer.msg(res.msg,{icon:1});
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2000)
+                }else{
+                    layer.msg(res.msg,{icon:2});
+                }
+            });
+        }
+    })
+
+</script>
+
+</body>
+</html>

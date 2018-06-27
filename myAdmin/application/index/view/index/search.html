@@ -1,0 +1,62 @@
+{extend name="common/base" /}
+{block name="body"}
+<div class="main">
+    <div class="w1000">
+        <div class="shenqing">
+            <div class="cxlogo">
+
+            </div>
+            <p class="cx">申请进度查询</p>
+
+            <div class="cx_center sq_center ">
+                <p class="pass-form-item">
+                    <label for="">请输入会员账目：</label>
+                    <input  class="input" type="text" name="user_name" id="user_name" placeholder="请填写您的会员账号">
+                </p>
+                <p class="pass-form-item">
+                    <label for="">&nbsp; 选择查询项目：</label>
+
+                    <select id="mySelect">
+                        {foreach $list as $vo}
+                        <option value="{$vo.id}">{$vo.project_name}</option>
+                        {/foreach}
+                    </select>
+
+
+                </p>
+                <div style="width: 100%; height: 20px;"></div>
+                <p class="pass-form-item">
+                    <input  class="bnt search" type="button" value="点击查询" />
+                    <a href="/" class="bnt"> 返回首页 </a>
+                </p>
+                <div style="width: 100%; height: 20px;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function () {
+    $('.search').click(function () {
+        var projectid=$("#mySelect").val();
+        var user=$("input[name='user_name']").val();
+        if (projectid=="" || user==""){
+            alert('填写不能为空！');
+            return;
+        }
+        var url="{:url('/search')}";
+        $.post(url,{projectid:projectid,user:user},function (res) {
+            if (res.code==0){
+                alert('正在为您审核，请耐心等待...');
+            }else if(res.code==1) {
+                alert(res.msg);
+            }else if(res.code==2){
+                alert('恭喜您，审核已通过！'+res.msg);
+            }else{
+                alert('对不起，您的审核未通过！'+res.msg);
+            }
+        })
+    });
+})
+</script>
+{/block}

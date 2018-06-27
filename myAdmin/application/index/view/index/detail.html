@@ -1,0 +1,23 @@
+
+{extend name="common/base1" /}
+{block name="body"}
+<div class="main" >
+    <div class="w1000">
+        <div class="height" style="height: 33px;"></div>
+        <div class="goods">
+            <div class="btns">
+                <a  class='btn fl' href="/">返回首页</a>
+                <a  class='btn fr' href="{:url('/apply',['id'=>$list['id']])}">点击申请</a>
+            </div>
+            <div class="content">
+                <div class="content1">
+                    <h1>申请主题：<span>{$list.project_name}</span></h1>
+                </div>
+                <div class="content2">
+                    {$list.project_text|raw}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
